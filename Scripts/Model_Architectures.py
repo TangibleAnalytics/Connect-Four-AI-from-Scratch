@@ -24,16 +24,16 @@ def Perception_Model_Definition(Board_Shape=(6,7), Action_Space=7):
         continue
     x = Flatten()(x)
     
+    #Incorporate action
+    Action_Taken_Input = Input(shape=(Action_Space,))
+    x = Concatenate()([x, Action_Taken_Input])
+    
     for Dense_Layer in range(3):
         x = Dense(units=100)(x)
         x = LeakyReLU()(x)
         x = BatchNormalization()(x)
         x = Dropout(rate=0.1)(x)
         continue
-    
-    #Incorporate action
-    Action_Taken_Input = Input(shape=(Action_Space,))
-    x = Concatenate()([x, Action_Taken_Input])
     
     x = Dense(units=1, activation='linear')(x)
     Model_Output = x
